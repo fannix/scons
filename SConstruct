@@ -1,4 +1,5 @@
 import os
+import SCons
 from util import preprocess_lines
 env = Environment(ENV = os.environ)
 
@@ -17,3 +18,7 @@ def preprocess(target, source, env):
 env.Command(target='fr.txt', source='fr-raw.txt', action=preprocess)
 # Better specify the dependency explicitly when using Command().
 env.Depends('fr.txt', 'fr-raw.txt')
+
+bld = Builder(action = 'python ../text_to_vec.py -s $TARGET < $SOURCE') 
+env['BUILDERS']['Span'] = bld
+env.Span('fr.span', 'fr.txt')
