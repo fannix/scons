@@ -19,6 +19,11 @@ env.Command(target='fr.txt', source='fr-raw.txt', action=preprocess)
 # Better specify the dependency explicitly when using Command().
 env.Depends('fr.txt', 'fr-raw.txt')
 
-bld = Builder(action = 'python ../text_to_vec.py -s $TARGET < $SOURCE') 
-env['BUILDERS']['Span'] = bld
-env.Span('fr.span', 'fr.txt')
+#bld = Builder(action = 'python ../text_to_vec.py -s $TARGET < $SOURCE') 
+#env['BUILDERS']['Span'] = bld
+#env.Span('fr.span', 'fr.txt')
+
+span = env.Command('fr.span', 'fr.txt', 'python ../text_to_vec.py -s $TARGET < $SOURCE')
+project = env.Command('fr.vec','fr.txt',
+    'python ../text_to_vec.py -p fr.span -t 0 < $SOURCE > $TARGET')
+env.Depends(project, span)

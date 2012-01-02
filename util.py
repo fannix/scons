@@ -23,9 +23,9 @@ def preprocess_lines(raw_lines):
         li = e.split()
         _, _, mean, _ = li[:4]
         sentence = " ".join(li[4:])
-        if float(mean) < -0.05:
+        if float(mean) < -0.5:
             processed_lines.append(str(-1)+"\t"+sentence)
-        elif float(mean) > 0.05:
+        elif float(mean) > 0.5:
             processed_lines.append(str(1)+"\t"+sentence)
 
     return processed_lines
